@@ -1,5 +1,16 @@
 Config = {}
 
+Config.useRadial = false
+Config.radialData = {
+    icon = 'soap',
+    label = 'Carwash',
+    useNotify = true,
+    NotifyTitle = 'Carwash',
+    NotifyDescription = 'Use the radial menu to start washing your car!',
+    NotifyType = 'inform',
+    NotifyDuration = 5000
+}
+
 Config.CarWash = {
     price = 200,
     blipName = 'Carwash',
@@ -38,6 +49,17 @@ Config.CarWash = {
 
 
 -- Additional hungarian language
+
+-- Config.useRadial = true
+-- Config.radialData = {
+--     icon = 'soap',
+--     label = 'Carwash',
+--     useNotify = true,
+--     NotifyTitle = 'Autómosó',
+--     NotifyDescription = 'Használd a radiál menüt a mosáshoz!',
+--     NotifyType = 'inform',
+--     NotifyDuration = 5000
+-- }
 
 -- Config.CarWash = {
 --     price = 200,
