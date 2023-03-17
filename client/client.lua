@@ -1,6 +1,7 @@
 local isWashing = false
 local PlayerPed = PlayerPedId()
 
+
 for k,v in pairs(Config.CarWash.positions) do
     carWash = {['carWash'..k] = lib.zones.box({coords = v.coord, size = v.size, rotation = v.rot, debug = v.debug, inside = inside, onEnter = onEnter, onExit = onExit})}
     for _,i in pairs(carWash) do
@@ -11,20 +12,44 @@ for k,v in pairs(Config.CarWash.positions) do
         EndTextCommandSetBlipName(carWashBlip)
         function i:onEnter()
             if IsPedInAnyVehicle(PlayerPed, false) then
-                lib.notify({
-                    title = Config.CarWash.InformNotify.title,
-                    description = Config.CarWash.InformNotify.description..Config.CarWash.price..'$',
-                    type = Config.CarWash.InformNotify.type,
-                    duration = Config.CarWash.InformNotify.duration
-                })
+                if Config.useRadial then
+                    lib.addRadialItem({
+                        id = 'carwash',
+                        icon = Config.radialData.icon,
+                        label = Config.radialData.label,
+                        onSelect = function()
+                            TriggerEvent('fusti_carwash:CanWash')
+                        end
+                    })
+                    if Config.radialData.useNotify then
+                        lib.notify({
+                            title = Config.radialData.NotifyTitle,
+                            description = Config.radialData.NotifyDescription,
+                            type = Config.radialData.NotifyType,
+                            duration = Config.radialData.NotifyDuration,
+                        })
+                    end
+                else
+                    lib.notify({
+                        title = Config.CarWash.InformNotify.title,
+                        description = Config.CarWash.InformNotify.description..Config.CarWash.price..'$',
+                        type = Config.CarWash.InformNotify.type,
+                        duration = Config.CarWash.InformNotify.duration
+                    })
+                end
             end
         end
         function i:inside()
             if IsPedInAnyVehicle(PlayerPed, false) then
-                if IsControlJustReleased(0, 38) then
-                    TriggerEvent('fusti_carwash:CanWash')
+                if not Config.useRadial then
+                    if IsControlJustReleased(0, 38) then
+                        TriggerEvent('fusti_carwash:CanWash')
+                    end
                 end
             end
+        end
+        function i:onExit()
+            lib.removeRadialItem('carwash')
         end
     end
 end
