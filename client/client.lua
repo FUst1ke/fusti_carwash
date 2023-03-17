@@ -5,10 +5,11 @@ local PlayerPed = PlayerPedId()
 for k,v in pairs(Config.CarWash.positions) do
     carWash = {['carWash'..k] = lib.zones.box({coords = v.coord, size = v.size, rotation = v.rot, debug = v.debug, inside = inside, onEnter = onEnter, onExit = onExit})}
     for _,i in pairs(carWash) do
-        carWashBlip = AddBlipForCoord(v.coord)
         SetBlipSprite(carWashBlip, 100)
+        SetBlipAsShortRange(carWashBlip, true)
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentSubstringPlayerName(Config.CarWash.blipName)
+        EndTextCommandSetBlipName(carWashBlip)
         EndTextCommandSetBlipName(carWashBlip)
         function i:onEnter()
             if IsPedInAnyVehicle(PlayerPed, false) then
