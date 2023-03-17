@@ -1,14 +1,11 @@
-ESX = exports['es_extended']:getSharedObject()
-
 RegisterServerEvent('fusti_carwash:checkWash')
 AddEventHandler('fusti_carwash:checkWash', function()
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local money = xPlayer.getMoney()
     local price = Config.CarWash.price
+    local money = exports.ox_inventory:GetItem(source, 'money', nil, true)
     if money >= price then
-        xPlayer.removeMoney(price)
+        exports.ox_inventory:RemoveItem(source, 'money', price)
         TriggerClientEvent('fusti_carwash:startWash', source)
     else
-        TriggerClientEvent('fusti_carwash:notify', source, 'Hiba', 'Nincs elég pénzed!', 'error')
+        TriggerClientEvent('fusti_carwash:notify', source, Config.CarWash.MoneyNotify.title, Config.CarWash.MoneyNotify.description, Config.CarWash.MoneyNotify.type)
     end
 end)
